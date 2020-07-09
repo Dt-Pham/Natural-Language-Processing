@@ -31,7 +31,9 @@ class PartialParse(object):
         ###
         ### Note: The root token should be represented with the string "ROOT"
         ###
-
+        self.stack = ["ROOT"]
+        self.buffer = sentence.copy()
+        self.dependencies = []
 
         ### END YOUR CODE
 
@@ -50,8 +52,16 @@ class PartialParse(object):
         ###         1. Shift
         ###         2. Left Arc
         ###         3. Right Arc
-
-
+        
+        if transition == 'S':
+            self.stack.append(self.buffer[0])
+            self.buffer.pop(0)
+        elif transition == 'LA':
+            self.dependencies.append((self.stack[-1], self.stack[-2]))
+            self.stack.pop(-2)
+        else:
+            self.dependencies.append((self.stack[-2], self.stack[-1]))
+            self.stack.pop()
         ### END YOUR CODE
 
     def parse(self, transitions):
@@ -86,7 +96,6 @@ def minibatch_parse(sentences, model, batch_size):
                                                     same as in sentences (i.e., dependencies[i] should
                                                     contain the parse for sentences[i]).
     """
-    dependencies = []
 
     ### YOUR CODE HERE (~8-10 Lines)
     ### TODO:
@@ -102,7 +111,27 @@ def minibatch_parse(sentences, model, batch_size):
     ###             to remove objects from the `unfinished_parses` list. This will free the underlying memory that
     ###             is being accessed by `partial_parses` and may cause your code to crash.
 
+    dependencies = [None] * len(sentences)
+    partial_parses = [PartialParse(sentence) for sentence in sentences]
+    unfinished_parses = partial_parses
+    num_finished = 0
 
+    while num_finished < len(unfinished_parses):
+        minibatch = []
+        index = []
+        for i, parse in enumerate(unfinished_parses):
+            if len(parse.stack) > 1 or len(parse.buffer) > 0:
+                minibatch.append(parse)
+                index.append(i)
+
+        transitions = model.predict(minibatch)
+        for parse, transition in zip(minibatch, transitions):
+            parse.parse_step(transition)
+
+        for parse, i in zip(minibatch, index):
+            if len(parse.stack) == 1 and len(parse.buffer) == 0:
+                dependencies[i] = parse.dependencies
+                num_finished += 1
     ### END YOUR CODE
 
     return dependencies
