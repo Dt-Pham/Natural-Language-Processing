@@ -3,9 +3,9 @@
 Coursework for [NLP with Deep Learning](http://web.stanford.edu/class/cs224n/) at Stanford.
 The repository contains following projects:
   1. [Exploring Word Vectors](./Exploring-Word-Vectors)
-  2. Word2Vec
-  3. Dependancy Parsing
-  4. Neural Machine Translation
+  2. [Word2Vec](./Word2Vec)
+  3. [Dependancy Parsing](./Dependancy-Parsing)
+  4. [Neural Machine Translation](./Neural-Machine-Translation)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
