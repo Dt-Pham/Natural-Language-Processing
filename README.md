@@ -7,7 +7,7 @@ The repository contains following projects:
   3. [Dependency Parsing](./Dependency-Parsing)
   4. [Neural Machine Translation](./Neural-Machine-Translation)
 
-## Install and Usage
+## Installion and Usage
 Clone this repository and go to a sub-directory. You'll find a README there.
 
 ## Contributing
