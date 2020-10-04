@@ -10,10 +10,5 @@ The repository contains following projects:
 ## Installion and Usage
 Clone this repository and go to a sub-directory. You'll find a README there.
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
